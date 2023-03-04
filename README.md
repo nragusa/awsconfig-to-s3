@@ -13,7 +13,7 @@ The following is required:
 * Python 3.9
 * [AWS CDK](https://aws.amazon.com/cdk/) (version 2.67.0 was used at the time of creation)
 
-To deploy this solution, you'll first need to install the python dependencies location in the ![layers](layers/) directory.
+To deploy this solution, you'll first need to install the python dependencies location in the [layers](layers/) directory.
 
 ```bash
 sudo yum -y install gcc openssl-devel bzip2-devel libffi-devel
