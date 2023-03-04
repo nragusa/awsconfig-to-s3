@@ -1,58 +1,74 @@
+# Overview
 
-# Welcome to your CDK Python project!
+This CDK application will create an AWS Lambda function that will query AWS Config
+and store the results in an S3 bucket. It uses [AWS Config advanced query](https://docs.aws.amazon.com/config/latest/developerguide/querying-AWS-resources.html)
+to get the results and will store them in either CSV or JSON format. The files can
+then be downloaded from S3 for further modification.
 
-This is a blank project for CDK development with Python.
+## Prerequisites
 
-The `cdk.json` file tells the CDK Toolkit how to execute your app.
+The following is required:
 
-This project is set up like a standard Python project.  The initialization
-process also creates a virtualenv within this project, stored under the `.venv`
-directory.  To create the virtualenv it assumes that there is a `python3`
-(or `python` for Windows) executable in your path with access to the `venv`
-package. If for any reason the automatic creation of the virtualenv fails,
-you can create the virtualenv manually.
+* AWS Config enabled
+* Python 3.9
+* [AWS CDK](https://aws.amazon.com/cdk/) (version 2.67.0 was used at the time of creation)
 
-To manually create a virtualenv on MacOS and Linux:
+To deploy this solution, you'll first need to install the python dependencies location in the ![layers](layers/) directory.
 
-```
-$ python3 -m venv .venv
-```
-
-After the init process completes and the virtualenv is created, you can use the following
-step to activate your virtualenv.
-
-```
-$ source .venv/bin/activate
+```bash
+pip3 install -t layers/python -r layers/requirements.txt
 ```
 
-If you are a Windows platform, you would activate the virtualenv like this:
+Next, install `pipenv`, a python package dependency manager.
 
-```
-% .venv\Scripts\activate.bat
-```
-
-Once the virtualenv is activated, you can install the required dependencies.
-
-```
-$ pip install -r requirements.txt
+```bash
+pip3 install --user pipenv
 ```
 
-At this point you can now synthesize the CloudFormation template for this code.
+Next, you'll need to edit [cdk.context.json](cdk.context.json) and replace the values of `aggregator_name` and `aggregator_id`
+with values from your environment. The `aggregator_name` is the name of an [AWS Config aggregator](https://docs.aws.amazon.com/config/latest/developerguide/aggregate-data.html)
+which can be configured to query resources across multiple regions and multiple accounts. You can find the `aggregator_name`
+and `aggregator_id` by running the following command:
 
+```bash
+aws configservice describe-configuration-aggregators   
+{
+    "ConfigurationAggregators": [
+        {
+            "ConfigurationAggregatorName": "aws-controltower-ConfigAggregatorForOrganizations",
+            "ConfigurationAggregatorArn": "arn:aws:config:us-east-1:12345678910:config-aggregator/config-aggregator-gso5dgrv",
+            "OrganizationAggregationSource": {
+                "RoleArn": "arn:aws:iam::12345678910:role/service-role/AWSControlTowerConfigAggregatorRoleForOrganizations",
+                "AllAwsRegions": true
+            },
+            "CreationTime": "2021-03-12T15:07:06.200000+00:00",
+            "LastUpdatedTime": "2021-03-12T15:07:06.381000+00:00"
+        }
+    ]
+    ...
+}
 ```
-$ cdk synth
+
+The `aggregator_id` is the final string of the `CofingurationAggregatorArn`. In the example above, the `aggregator_id` is
+`config-aggregator-gso5dgrv`.
+
+Next, install the [AWS CDK](https://aws.amazon.com/cdk/) and python packages necessary for deployment:
+
+```bash
+sudo npm install -g aws-cdk@2.67.0
+pipenv install
+pipenv shell
 ```
 
-To add additional dependencies, for example other CDK libraries, just add
-them to your `setup.py` file and rerun the `pip install -r requirements.txt`
-command.
+## Deployment
 
-## Useful commands
+Use the [AWS CDK](https://aws.amazon.com/cdk/) to deploy the code.
 
- * `cdk ls`          list all stacks in the app
- * `cdk synth`       emits the synthesized CloudFormation template
- * `cdk deploy`      deploy this stack to your default AWS account/region
- * `cdk diff`        compare deployed stack with current state
- * `cdk docs`        open CDK documentation
+```bash
+cdk deploy
+```
 
-Enjoy!
+## Operations
+
+The Lambda function is scheduled to run daily. The reports will be stored in an S3 bucket. The name of the bucket
+used is found in the `Outputs` tab in the CloudFormation console.

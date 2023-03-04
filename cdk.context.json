@@ -1,0 +1,6 @@
+{
+  "aggregator_name": "aws-controltower-ConfigAggregatorForOrganizations",
+  "aggregator_id": "config-aggregator-gso5dgrv",
+  "output_format": "json",
+  "log_level": "INFO"
+}
