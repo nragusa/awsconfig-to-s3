@@ -68,9 +68,11 @@ sudo npm install -g aws-cdk@2.67.0
 
 ## Deployment
 
-Use the [AWS CDK](https://aws.amazon.com/cdk/) to deploy the code.
+Use the [AWS CDK](https://aws.amazon.com/cdk/) to deploy the code. If not already done, you'll need to bootstrap your environment,
+being sure to replace `ACCOUNT-NUMBER` and `REGION`.
 
 ```bash
+cdk bootstrap aws://ACCOUNT-NUMBER/REGION
 cdk deploy
 ```
 
