@@ -16,13 +16,21 @@ The following is required:
 To deploy this solution, you'll first need to install the python dependencies location in the ![layers](layers/) directory.
 
 ```bash
-pip3 install -t layers/python -r layers/requirements.txt
+sudo yum -y install gcc openssl-devel bzip2-devel libffi-devel
+curl https://pyenv.run | bash
+pyenv install 3.9.10
+pyenv shell 3.9.10
+git clone https://github.com/nragusa/awsconfig-to-s3.git
+cd awsconfig-to-s3
+pip3 install -t layers/pandas/python -r layers/pandas/requirements.txt
 ```
 
-Next, install `pipenv`, a python package dependency manager.
+Next, install `pipenv`, a python package dependency manager, along with the dependencies. Finally, activate the environment:
 
 ```bash
 pip3 install --user pipenv
+pipenv install
+pipenv shell
 ```
 
 Next, you'll need to edit [cdk.context.json](cdk.context.json) and replace the values of `aggregator_name` and `aggregator_id`
@@ -49,15 +57,13 @@ aws configservice describe-configuration-aggregators
 }
 ```
 
-The `aggregator_id` is the final string of the `CofingurationAggregatorArn`. In the example above, the `aggregator_id` is
+The `aggregator_id` is the final string of the `ConfigurationAggregatorArn`. In the example above, the `aggregator_id` is
 `config-aggregator-gso5dgrv`.
 
-Next, install the [AWS CDK](https://aws.amazon.com/cdk/) and python packages necessary for deployment:
+Next, make sure the appropriate version of the [AWS CDK](https://aws.amazon.com/cdk/) is installed:
 
 ```bash
 sudo npm install -g aws-cdk@2.67.0
-pipenv install
-pipenv shell
 ```
 
 ## Deployment
