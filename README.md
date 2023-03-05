@@ -44,7 +44,7 @@ aws configservice describe-configuration-aggregators
     "ConfigurationAggregators": [
         {
             "ConfigurationAggregatorName": "aws-controltower-ConfigAggregatorForOrganizations",
-            "ConfigurationAggregatorArn": "arn:aws:config:us-east-1:12345678910:config-aggregator/config-aggregator-gso5dgrv",
+            "ConfigurationAggregatorArn": "arn:aws:config:us-east-1:12345678910:config-aggregator/config-aggregator-abcd1234",
             "OrganizationAggregationSource": {
                 "RoleArn": "arn:aws:iam::12345678910:role/service-role/AWSControlTowerConfigAggregatorRoleForOrganizations",
                 "AllAwsRegions": true
@@ -58,7 +58,7 @@ aws configservice describe-configuration-aggregators
 ```
 
 The `aggregator_id` is the final string of the `ConfigurationAggregatorArn`. In the example above, the `aggregator_id` is
-`config-aggregator-gso5dgrv`.
+`config-aggregator-abcd1234`.
 
 Next, make sure the appropriate version of the [AWS CDK](https://aws.amazon.com/cdk/) is installed:
 
