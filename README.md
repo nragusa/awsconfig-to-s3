@@ -1,9 +1,6 @@
 # Overview
 
-This CDK application will create an AWS Lambda function that will query AWS Config
-and store the results in an S3 bucket. It uses [AWS Config advanced query](https://docs.aws.amazon.com/config/latest/developerguide/querying-AWS-resources.html)
-to get the results and will store them in either CSV or JSON format. The files can
-then be downloaded from S3 for further modification.
+This CDK application will create an AWS Lambda function that will query AWS Config and store the results in an S3 bucket. It uses [AWS Config advanced query](https://docs.aws.amazon.com/config/latest/developerguide/querying-AWS-resources.html) to get the results and will store them in either CSV or JSON format. The files can then be downloaded from S3 for further modification or analysis..
 
 ## Prerequisites
 
@@ -72,8 +69,7 @@ Edit the file [config_sql_expression.sql](functions/config_sql_expression.sql) a
 
 ## Deployment
 
-Use the [AWS CDK](https://aws.amazon.com/cdk/) to deploy the code. If not already done, you'll need to bootstrap your environment,
-being sure to replace `ACCOUNT-NUMBER` and `REGION`.
+Use the [AWS CDK](https://aws.amazon.com/cdk/) to deploy the code. If not already done, you'll need to bootstrap your environment, being sure to replace `ACCOUNT-NUMBER` and `REGION`.
 
 ```bash
 cdk bootstrap aws://ACCOUNT-NUMBER/REGION
@@ -82,5 +78,4 @@ cdk deploy
 
 ## Operations
 
-The Lambda function is scheduled to run daily. The reports will be stored in an S3 bucket. The name of the bucket
-used is found in the `Outputs` tab in the CloudFormation console.
+The Lambda function is scheduled to run daily. The reports will be stored in an S3 bucket. The name of the bucket used is found in the `Outputs` tab in the CloudFormation console.
