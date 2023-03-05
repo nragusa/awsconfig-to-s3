@@ -10,6 +10,3 @@ aws-cdk-lib = "~=2.67.0"
 autopep8 = "*"
 boto3 = "*"
 pandas = "*"
-
-[requires]
-python_version = "3.9"
