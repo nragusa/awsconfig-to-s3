@@ -13,18 +13,8 @@ AGGREGATOR_NAME = os.environ['AGGREGATOR_NAME']
 S3_OUTPUT_BUCKET = os.environ['S3_OUTPUT_BUCKET']
 LOG_LEVEL = os.environ['LOG_LEVEL']
 OUTPUT_FORMAT = os.environ['OUTPUT_FORMAT']
-EXPRESSION = """
-SELECT
-  resourceId,
-  resourceType,
-  supplementaryConfiguration.BucketVersioningConfiguration.status,
-  resourceCreationTime,
-  awsRegion,
-  supplementaryConfiguration.ServerSideEncryptionConfiguration.rules.applyServerSideEncryptionByDefault.sseAlgorithm,
-  tags
-WHERE
-  resourceType = 'AWS::S3::Bucket'
-"""
+with open('config_sql_expression.sql', 'r') as sql:
+    EXPRESSION = sql.read()
 #####
 
 logger = logging.getLogger()
