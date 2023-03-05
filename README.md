@@ -79,3 +79,5 @@ cdk deploy
 ## Operations
 
 The Lambda function is scheduled to run daily. The reports will be stored in an S3 bucket. The name of the bucket used is found in the `Outputs` tab in the CloudFormation console.
+
+![outputs](images/outputs.png)
