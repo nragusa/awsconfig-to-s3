@@ -12,13 +12,19 @@ The following is required:
 
 To deploy this solution, you'll first need to install the python dependencies location in the [layers](layers/) directory.
 
+Assuming you're using AWS CloudShell:
+
 ```bash
+# Install build deps for python 3.9
 sudo yum -y install gcc openssl-devel bzip2-devel libffi-devel
+# Install pyenv to facilitate python 3.9 installation
 curl https://pyenv.run | bash
 pyenv install 3.9.10
 pyenv shell 3.9.10
+# Clone this repository
 git clone https://github.com/nragusa/awsconfig-to-s3.git
 cd awsconfig-to-s3
+# Install python modules into the pandas/python directory
 pip3 install -t layers/pandas/python -r layers/pandas/requirements.txt
 ```
 
@@ -54,8 +60,7 @@ aws configservice describe-configuration-aggregators
 }
 ```
 
-The `aggregator_id` is the final string of the `ConfigurationAggregatorArn`. In the example above, the `aggregator_id` is
-`config-aggregator-abcd1234`.
+The `aggregator_id` is the final string of the `ConfigurationAggregatorArn`. In the example above, the `aggregator_id` is `config-aggregator-abcd1234`.
 
 Next, make sure the appropriate version of the [AWS CDK](https://aws.amazon.com/cdk/) is installed:
 
