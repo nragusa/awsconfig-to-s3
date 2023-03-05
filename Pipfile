@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-aws-cdk-lib = "~=2.67.0"
+aws-cdk-lib = "*"
 
 [dev-packages]
 autopep8 = "*"

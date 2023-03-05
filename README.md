@@ -8,7 +8,7 @@ The following is required:
 
 * AWS Config enabled
 * Python > 3.7 (Python 3.9 recommended)
-* [AWS CDK](https://aws.amazon.com/cdk/) v2.67.0
+* [AWS CDK](https://aws.amazon.com/cdk/) (this solution was built using v2.67.0)
 
 Assuming you're using AWS CloudShell:
 
@@ -29,10 +29,10 @@ pipenv install
 pipenv shell
 ```
 
-Next, make sure the appropriate version of the [AWS CDK](https://aws.amazon.com/cdk/) is installed:
+Next, install the latest v2 version of the [AWS CDK](https://aws.amazon.com/cdk/):
 
 ```bash
-sudo npm install -g aws-cdk@2.67.0
+sudo npm install -g aws-cdk
 ```
 
 Next, you'll need to edit [cdk.context.json](cdk.context.json) and replace the values of `aggregator_name` and `aggregator_id`
