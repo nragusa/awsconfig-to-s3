@@ -1,12 +1,14 @@
 from aws_cdk import (
     CfnOutput,
     Duration,
+    Fn,
     Stack,
     aws_events as events,
     aws_events_targets as events_targets,
     aws_iam as iam,
     aws_lambda as lambda_,
-    aws_s3 as s3
+    aws_s3 as s3,
+    aws_sam as sam
 )
 from constructs import Construct
 
@@ -27,16 +29,21 @@ class AwsConfigToS3Stack(Stack):
             enforce_ssl=True,
             versioned=True
         )
-        pandas_layer = lambda_.LayerVersion(
+        pandas_sam_app = sam.CfnApplication(
+            self,
+            'PandasServerlessApplication',
+            location={
+                'applicationId': 'arn:aws:serverlessrepo:us-east-1:336392948345:applications/aws-sdk-pandas-layer-py3-9',
+                'semanticVersion': '2.20.0'
+            }
+        )
+        pandas_layer_arn = Fn.import_value(
+            'aws-sdk-pandas-py3-9'
+        )
+        pandas_layer = lambda_.LayerVersion.from_layer_version_arn(
             self,
             'PandasLambdaLayer',
-            code=lambda_.Code.from_asset(
-                path='layers/pandas/'
-            ),
-            compatible_runtimes=[
-                lambda_.Runtime.PYTHON_3_9
-            ],
-            description='Python pandas module for Python 3.9'
+            layer_version_arn=pandas_layer_arn
         )
         config_to_s3 = lambda_.Function(
             self,

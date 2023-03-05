@@ -7,33 +7,32 @@ This CDK application will create an AWS Lambda function that will query AWS Conf
 The following is required:
 
 * AWS Config enabled
-* Python 3.9
-* [AWS CDK](https://aws.amazon.com/cdk/) (version 2.67.0 was used at the time of creation)
-
-To deploy this solution, you'll first need to install the python dependencies location in the [layers](layers/) directory.
+* Python > 3.7 (Python 3.9 recommended)
+* [AWS CDK](https://aws.amazon.com/cdk/) v2.67.0
 
 Assuming you're using AWS CloudShell:
 
 ```bash
-# Install build deps for python 3.9
-sudo yum -y install gcc openssl-devel bzip2-devel libffi-devel
-# Install pyenv to facilitate python 3.9 installation
-curl https://pyenv.run | bash
-pyenv install 3.9.10
-pyenv shell 3.9.10
 # Clone this repository
 git clone https://github.com/nragusa/awsconfig-to-s3.git
 cd awsconfig-to-s3
-# Install python modules into the pandas/python directory
-pip3 install -t layers/pandas/python -r layers/pandas/requirements.txt
 ```
 
 Next, install `pipenv`, a python package dependency manager, along with the dependencies. Finally, activate the environment:
 
 ```bash
+# Install pipenv
 pip3 install --user pipenv
+# Install the python packages
 pipenv install
+# Activate the environment
 pipenv shell
+```
+
+Next, make sure the appropriate version of the [AWS CDK](https://aws.amazon.com/cdk/) is installed:
+
+```bash
+sudo npm install -g aws-cdk@2.67.0
 ```
 
 Next, you'll need to edit [cdk.context.json](cdk.context.json) and replace the values of `aggregator_name` and `aggregator_id`
@@ -61,12 +60,6 @@ aws configservice describe-configuration-aggregators
 ```
 
 The `aggregator_id` is the final string of the `ConfigurationAggregatorArn`. In the example above, the `aggregator_id` is `config-aggregator-abcd1234`.
-
-Next, make sure the appropriate version of the [AWS CDK](https://aws.amazon.com/cdk/) is installed:
-
-```bash
-sudo npm install -g aws-cdk@2.67.0
-```
 
 ## Set SQL Expression
 
