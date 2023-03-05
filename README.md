@@ -66,6 +66,10 @@ Next, make sure the appropriate version of the [AWS CDK](https://aws.amazon.com/
 sudo npm install -g aws-cdk@2.67.0
 ```
 
+## Set SQL Expression
+
+Edit the file [config_sql_expression.sql](functions/config_sql_expression.sql) and add your SQL expression. Here are some [example queries](https://docs.aws.amazon.com/config/latest/developerguide/example-query.html) you can try. Only specify a single query in this file.
+
 ## Deployment
 
 Use the [AWS CDK](https://aws.amazon.com/cdk/) to deploy the code. If not already done, you'll need to bootstrap your environment,
