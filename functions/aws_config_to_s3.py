@@ -18,6 +18,8 @@ with open('config_sql_expression.sql', 'r') as sql:
 #####
 
 logger = logging.getLogger()
+[x.setFormatter(logging.Formatter('[%(levelname)s] %(message)s'))
+ for x in logger.handlers]
 logging_level = logging.getLevelName(LOG_LEVEL)
 logger.setLevel(logging_level)
 
