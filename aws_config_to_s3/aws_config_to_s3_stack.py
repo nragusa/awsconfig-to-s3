@@ -18,9 +18,6 @@ class AwsConfigToS3Stack(Stack):
     def __init__(self, scope: Construct, construct_id: str, **kwargs) -> None:
         super().__init__(scope, construct_id, **kwargs)
 
-        aggregator_id = self.node.try_get_context('aggregator_id')
-        aggregator_name = self.node.try_get_context('aggregator_name')
-
         s3_bucket = s3.Bucket(
             self,
             'AWSConfigOutputBucket',
@@ -56,7 +53,7 @@ class AwsConfigToS3Stack(Stack):
             runtime=lambda_.Runtime.PYTHON_3_9,
             description='Queries AWS Config advanced query to get the state of resources',
             environment={
-                'AGGREGATOR_NAME': aggregator_name,
+                'AGGREGATOR_NAME': self.node.try_get_context('aggregator_name'),
                 'S3_OUTPUT_BUCKET': s3_bucket.bucket_name,
                 'OUTPUT_FORMAT': self.node.try_get_context('output_format'),
                 'LOG_LEVEL': self.node.try_get_context('log_level')
@@ -88,7 +85,7 @@ class AwsConfigToS3Stack(Stack):
                             ],
                             effect=iam.Effect.ALLOW,
                             resources=[
-                                f'arn:aws:config:{self.region}:{self.account}:config-aggregator/{aggregator_id}'
+                                f'arn:aws:config:{self.region}:{self.account}:config-aggregator/{self.node.try_get_context("aggregator_id")}'
                             ]
                         )
                     ]
