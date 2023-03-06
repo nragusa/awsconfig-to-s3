@@ -1,5 +1,7 @@
 # Overview
 
+![Architecture Overview](images/overview.png)
+
 This CDK application will create an AWS Lambda function that will query AWS Config and store the results in an S3 bucket. It uses [AWS Config advanced query](https://docs.aws.amazon.com/config/latest/developerguide/querying-AWS-resources.html) to get the results and will store them in either CSV or JSON format. The files can then be downloaded from S3 for further modification or analysis..
 
 ## Prerequisites
