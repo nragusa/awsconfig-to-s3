@@ -33,8 +33,8 @@ class AwsConfigToS3Stack(Stack):
             self,
             'PandasServerlessApplication',
             location={
-                'applicationId': 'arn:aws:serverlessrepo:us-east-1:336392948345:applications/aws-sdk-pandas-layer-py3-9',
-                'semanticVersion': '2.20.0'
+                'applicationId': self.node.try_get_context('pandas_serverless_application_id'),
+                'semanticVersion': self.node.try_get_context('pandas_serverless_semantic_version')
             }
         )
         pandas_layer_arn = Fn.import_value(

@@ -2,5 +2,7 @@
   "aggregator_name": "aws-controltower-ConfigAggregatorForOrganizations",
   "aggregator_id": "config-aggregator-gso5dgrv",
   "output_format": "json",
-  "log_level": "INFO"
+  "log_level": "INFO",
+  "pandas_serverless_application_id": "arn:aws:serverlessrepo:us-east-1:336392948345:applications/aws-sdk-pandas-layer-py3-9",
+  "pandas_serverless_semantic_version": "2.20.0"
 }
