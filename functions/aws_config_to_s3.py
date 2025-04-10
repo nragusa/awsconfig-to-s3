@@ -1,10 +1,13 @@
-import boto3
-import botocore
+"""Queries AWS Config advanced query functionality and stores the results in an S3 bucket."""
+
 import json
 import logging
 import os
-import pandas as pd
 from datetime import date
+
+import boto3
+import botocore
+import pandas as pd
 
 #####
 # Configuration
@@ -18,16 +21,15 @@ with open('config_sql_expression.sql', 'r') as sql:
 #####
 
 logger = logging.getLogger()
-[x.setFormatter(logging.Formatter('[%(levelname)s] %(message)s'))
- for x in logger.handlers]
+[x.setFormatter(logging.Formatter('[%(levelname)s] %(message)s')) for x in logger.handlers]
 logging_level = logging.getLevelName(LOG_LEVEL)
 logger.setLevel(logging_level)
 
 
 def query_config(paged_results) -> list:
-    """Gets the results from AWS Config and returns a list of the results
+    """Gets the results from AWS Config and returns a list of the results.
 
-    Keyword arguments:
+    Keyword Arguments:
     paged_results -- iterable of PageIterator
 
     Returns:
@@ -41,9 +43,13 @@ def query_config(paged_results) -> list:
 
 
 def handler(event, context):
-    """Queries AWS Config advanced query functionality and stores the results
-    in an S3 bucket. The query (expression) and S3 output bucket are environment
-    variables.
+    """Queries AWS Config and stores results in an S3 bucket.
+
+    The query (expression) and S3 output bucket are environment variables.
+
+    Keyword Arguments:
+    event -- event data
+    context -- context data
     """
     # Create the boto3 clients
     config_client = boto3.client('config')
@@ -62,15 +68,9 @@ def handler(event, context):
 
     try:
         logger.info('Calling AWS Config advanced query')
-        logger.debug(
-            f'Aggregator name {AGGREGATOR_NAME} and query {EXPRESSION}'
-        )
+        logger.debug(f'Aggregator name {AGGREGATOR_NAME} and query {EXPRESSION}')
         # Call the select_aggregate_resource_config API and get the results
-        paged_results = paginator.paginate(
-            Expression=EXPRESSION,
-            ConfigurationAggregatorName=AGGREGATOR_NAME,
-            Limit=50
-        )
+        paged_results = paginator.paginate(Expression=EXPRESSION, ConfigurationAggregatorName=AGGREGATOR_NAME, Limit=50)
         response = query_config(paged_results)
 
         # Format the results into the proper output format
@@ -86,13 +86,9 @@ def handler(event, context):
 
         # Upload the output file to S3
         logger.info('Uploading output to S3')
-        logger.debug(
-            f'Uploading {output_file} to S3 bucket {S3_OUTPUT_BUCKET}'
-        )
+        logger.debug(f'Uploading {output_file} to S3 bucket {S3_OUTPUT_BUCKET}')
         s3.meta.client.upload_file(
-            output_file,
-            S3_OUTPUT_BUCKET,
-            f'{date.today().isoformat().replace("-","/")}/config-output.{output_format}'
+            output_file, S3_OUTPUT_BUCKET, f'{date.today().isoformat().replace("-", "/")}/config-output.{output_format}'
         )
         logger.info('Success')
     except botocore.exceptions.ClientError as error:
