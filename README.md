@@ -8,9 +8,9 @@ This CDK application will create an AWS Lambda function that will query AWS Conf
 
 The following is required:
 
-* AWS Config enabled
-* Python > 3.7 (Python 3.9 recommended)
-* [AWS CDK](https://aws.amazon.com/cdk/) (this solution was built using v2.67.0)
+- AWS Config enabled
+- Python > 3.12 (Python 3.13 recommended)
+- [AWS CDK](https://aws.amazon.com/cdk/) (this solution was built using v2.189.0)
 
 Assuming you're using AWS CloudShell:
 
@@ -20,15 +20,17 @@ git clone https://github.com/nragusa/awsconfig-to-s3.git
 cd awsconfig-to-s3
 ```
 
-Next, install `pipenv`, a python package dependency manager, along with the dependencies. Finally, activate the environment:
+Next, install `uv`, a python package dependency manager, along with the dependencies. Finally, activate the environment:
 
 ```bash
-# Install pipenv
-pip3 install --user pipenv
-# Install the python packages
-pipenv install
+# Install uv
+curl -LsSf https://astral.sh/uv/install.sh | sh
+# Or follow instructions here: https://docs.astral.sh/uv/getting-started/installation/
+
+# Install dependencies
+uv sync
 # Activate the environment
-pipenv shell
+source .venv/bin/activate
 ```
 
 Next, install the latest v2 version of the [AWS CDK](https://aws.amazon.com/cdk/):
@@ -43,7 +45,7 @@ which can be configured to query resources across multiple regions and multiple 
 and `aggregator_id` by running the following command:
 
 ```bash
-aws configservice describe-configuration-aggregators   
+aws configservice describe-configuration-aggregators
 {
     "ConfigurationAggregators": [
         {
